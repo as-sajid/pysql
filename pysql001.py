@@ -7,6 +7,7 @@ lib_dir = r"C:\instantclient_19_13"
 cx_Oracle.init_oracle_client(lib_dir=lib_dir)
 try:
    engine = sqlalchemy.create_engine("oracle+cx_oracle://pysql:pysql@localhost:1521/?service_name=xepdb1", arraysize=1000)
+ 
    orders_sql = """SELECT * FROM orders"""; 
    df_orders = pd.read_sql(orders_sql, engine)
    details_sql = """SELECT * FROM details""";
@@ -25,5 +26,8 @@ try:
    ##Rounding off
    df_orders_details = df_orders_details.round(2)
    print(df_sales)
+   ###using group by
+   df_date_empl = df_sales.groupby(['ordate','empl']).sum()
+   print(df_date_empl)
 except SQLAlchemyError as e:
    print(e)
