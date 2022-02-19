@@ -27,3 +27,11 @@ INSERT INTO emp VALUES (7900,'JAMES','CLERK',7698,to_date('3-12-1981','dd-mm-yyy
 INSERT INTO emp VALUES (7902,'FORD','ANALYST',7566,to_date('3-12-1981','dd-mm-yyyy'),3000,NULL,20);
 INSERT INTO emp VALUES (7934,'MILLER','CLERK',7782,to_date('23-1-1982','dd-mm-yyyy'),1300,NULL,10);
 COMMIT;
+---Analytic examples
+----Average salary by department
+SELECT empno, deptno, sal,
+       Round(AVG(sal) OVER (PARTITION BY deptno  ),2) AS avg_dept_sal
+      
+FROM   emp  where deptno=10;
+order by deptno, empno,  sal ;
+/* Adding order by sal in the partition by clause gives moving average*/
