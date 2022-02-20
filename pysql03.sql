@@ -35,3 +35,26 @@ SELECT empno, deptno, sal,
 FROM   emp  where deptno=10;
 order by deptno, empno,  sal ;
 /* Adding order by sal in the partition by clause gives moving average*/
+----Running total 
+
+SELECT empno, deptno, sal,
+       Round(sum(sal) OVER (order by empno),2) AS Running_sal
+FROM   emp  ;
+---Running total in a group
+SELECT empno, deptno, sal,
+       Round(sum(sal) OVER (partition by deptno order by empno ),2) AS Running_sal
+FROM   emp  ;
+--------Row numbering
+select empno, deptno, 
+       row_number() over ( order by deptno ) rn ,
+       rank() over ( order by deptno ) rk, 
+       dense_rank() over ( order by deptno ) dr from   emp  order by deptno,empno;
+--previous and next value
+select empno,sal,
+       lag ( sal ) over ( order by empno ) prev_sal,
+       lead ( sal ) over ( order by empno ) next_sal from   emp;
+--first value and last value
+select empno, deptno,sal,
+first_value(sal) over (order by deptno) as first_sal,
+last_value(sal) over (order by deptno) as last_sal
+from emp order by deptno, sal;
