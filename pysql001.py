@@ -25,9 +25,18 @@ try:
    df_sales = df_orders_details[['ordate','empl', 'total', 'off']]
    ##Rounding off
    df_orders_details = df_orders_details.round(2)
+   print("=================================================")
+   print("           Datewise sale with discount           ")
+   print("=================================================")
    print(df_sales)
+   print("=================================================")
    ###using group by
    df_date_empl = df_sales.groupby(['ordate','empl']).sum()
+   print("\n")
+   print("=================================================")
+   print("====Total sale by  order date and employee=======")
+   print("=================================================")
    print(df_date_empl)
+   print("=================================================")
 except SQLAlchemyError as e:
    print(e)
